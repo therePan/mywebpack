@@ -2,10 +2,12 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');  //生成html文件
 const CleanWebpackPlugin = require('clean-webpack-plugin'); //清理空dist文件夹
 const ManifestPlugin = require('webpack-manifest-plugin');
+const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 
 module.exports = {
   entry: {
-    print: './src/print.js',
     app: './src/index.js',
   },
   output: {
@@ -37,9 +39,8 @@ module.exports = {
     }),
     new CleanWebpackPlugin(['dist']),
     new ManifestPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    // new UglifyJSPlugin()// 可以删除未引用代码的压缩工具（用于生产环境）
   ],
-  devServer: {
-    contentBase: './dist',
-    port: 2000,
-  },
 }
